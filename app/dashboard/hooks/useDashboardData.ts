@@ -1,10 +1,10 @@
 "use client";
 import { useState, useMemo } from "react";
-import { mockAnalyses } from "../data/mockAnalyses";
 import { phrases } from "../constants/phrases";
+import { useAppStore } from "@/stores/useAppStore";
 
 export function useDashboardData() {
-  const [analyses] = useState(mockAnalyses);
+  const analyses = useAppStore((s) => s.matches);
 
   const stats = useMemo(() => {
     const totalMetaPoints = analyses.reduce((a, b) => a + b.metaPoints, 0);

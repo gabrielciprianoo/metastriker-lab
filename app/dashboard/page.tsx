@@ -12,14 +12,21 @@ import {
 import { motion } from "framer-motion";
 import { useDashboardData } from "./hooks/useDashboardData";
 import { StatCard } from "./components/StatCard";
-import { MatchList } from "./components/MatchList";
 import { MotivationCard } from "./components/MotivationCard";
+import { useAppStore } from "@/stores/useAppStore";
+import { RegisterMatchModal } from "../matches/components/RegisterMatchModal";
+import Link from "next/link";
+import { MatchList } from "../matches/components/MatchList";
 
 export default function DashboardPage() {
-  const { analyses, stats, randomPhrase } = useDashboardData();
+  const { stats, randomPhrase } = useDashboardData();
+  const analyses = useAppStore((s) => s.matches);
+  const openRegisterMatch = useAppStore((s) => s.openRegisterMatch);
 
   return (
     <main className="min-h-screen bg-linear-to-b from-[#0b0b0b] via-[#0f1112] to-black text-gray-100 p-6 md:p-10 space-y-20 relative overflow-hidden">
+      <RegisterMatchModal />
+
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(120,255,180,0.08)_0%,transparent_70%)] blur-3xl -z-10"
@@ -62,7 +69,8 @@ export default function DashboardPage() {
         >
           <Button
             className="relative overflow-hidden bg-linear-to-r cursor-pointer from-emerald-500 to-emerald-400 text-white font-semibold text-lg px-10 py-5 rounded-2xl shadow-md
-    transition-all duration-300 flex items-center justify-center gap-3 hover:shadow-emerald-500/40 hover:scale-[1.03]"
+  transition-all duration-300 flex items-center justify-center gap-3 hover:shadow-emerald-500/40 hover:scale-[1.03]"
+            onClick={openRegisterMatch}
           >
             <span className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent opacity-0 hover:opacity-100 blur-sm transition-opacity duration-700 animate-[shine_2.5s_linear_infinite]" />
             <PlayIcon className="h-8 w-8 text-white" />
@@ -94,8 +102,14 @@ export default function DashboardPage() {
           <StatCard
             Icon={TrophyIcon}
             label="Eficiencia"
-            value={`${stats.accuracyRatio}%`}
-            insight="Precisión total"
+            value={
+              stats.totalMatches === 0 ? "Sin datos" : `${stats.accuracyRatio}%`
+            }
+            insight={
+              stats.totalMatches === 0
+                ? "Aún no se han registrado partidos"
+                : "Precisión total"
+            }
           />
         </div>
       </section>
@@ -109,11 +123,11 @@ export default function DashboardPage() {
             variant="ghost"
             className="text-sm font-medium text-gray-400 hover:text-emerald-400 hover:bg-emerald-400/10 flex items-center gap-1 transition-all duration-300 rounded-lg cursor-pointer"
           >
-            Ver todos
+            <Link href="/matches">Ver todos</Link>
             <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Button>
         </div>
-        <MatchList analyses={analyses} />
+        <MatchList analyses={analyses} compact />
       </section>
     </main>
   );
