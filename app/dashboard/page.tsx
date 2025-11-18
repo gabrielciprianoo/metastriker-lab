@@ -102,8 +102,14 @@ export default function DashboardPage() {
           <StatCard
             Icon={TrophyIcon}
             label="Eficiencia"
-            value={`${stats.accuracyRatio}%`}
-            insight="Precisión total"
+            value={
+              stats.totalMatches === 0 ? "Sin datos" : `${stats.accuracyRatio}%`
+            }
+            insight={
+              stats.totalMatches === 0
+                ? "Aún no se han registrado partidos"
+                : "Precisión total"
+            }
           />
         </div>
       </section>
@@ -121,7 +127,7 @@ export default function DashboardPage() {
             <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Button>
         </div>
-        <MatchList analyses={analyses} compact/>
+        <MatchList analyses={analyses} compact />
       </section>
     </main>
   );
