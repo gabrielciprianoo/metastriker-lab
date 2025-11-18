@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${interSans.variable} ${firaMono.variable} antialiased bg-gray-900`}
+        className={`${interSans.variable} ${firaMono.variable} antialiased bg-linear-to-b from-[#0b0b0b] via-[#0f1112] to-black`}
         style={{
           fontFamily: "var(--font-sans)",
         }}

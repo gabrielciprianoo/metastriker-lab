@@ -12,13 +12,15 @@ import {
 import { motion } from "framer-motion";
 import { useDashboardData } from "./hooks/useDashboardData";
 import { StatCard } from "./components/StatCard";
-import { MatchList } from "./components/MatchList";
 import { MotivationCard } from "./components/MotivationCard";
 import { useAppStore } from "@/stores/useAppStore";
 import { RegisterMatchModal } from "../matches/components/RegisterMatchModal";
+import Link from "next/link";
+import { MatchList } from "../matches/components/MatchList";
 
 export default function DashboardPage() {
-  const { analyses, stats, randomPhrase } = useDashboardData();
+  const { stats, randomPhrase } = useDashboardData();
+  const analyses = useAppStore((s) => s.matches);
   const openRegisterMatch = useAppStore((s) => s.openRegisterMatch);
 
   return (
@@ -115,11 +117,11 @@ export default function DashboardPage() {
             variant="ghost"
             className="text-sm font-medium text-gray-400 hover:text-emerald-400 hover:bg-emerald-400/10 flex items-center gap-1 transition-all duration-300 rounded-lg cursor-pointer"
           >
-            Ver todos
+            <Link href="/matches">Ver todos</Link>
             <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Button>
         </div>
-        <MatchList analyses={analyses} />
+        <MatchList analyses={analyses} compact/>
       </section>
     </main>
   );

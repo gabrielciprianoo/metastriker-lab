@@ -1,3 +1,12 @@
+
+export type MatchEvent = {
+  id: string;
+  type: "meta" | "strike" | "custom";
+  label: string;
+  time: number;
+  createdAt?: string;
+};
+
 export type Analysis = {
   id: string;
   title: string;
@@ -13,5 +22,6 @@ export type Analysis = {
     goalsAgainst: number;
   };
 
+  events?: MatchEvent[];
   createdAt: string;
 };
